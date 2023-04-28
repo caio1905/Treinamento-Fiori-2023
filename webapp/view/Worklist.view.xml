@@ -1,89 +1,159 @@
-<mvc:View
-    controllerName="treinamentofiori.controller.Worklist"
-    xmlns="sap.m"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns:semantic="sap.f.semantic">
+<mvc:View 
+    xmlns="sap.m" 
+    xmlns:core="sap.ui.core" 
+    xmlns:table="sap.ui.table" 
+    xmlns:mvc="sap.ui.core.mvc" 
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" 
+    xmlns:smartTable="sap.ui.comp.smarttable" 
+    controllerName="treinamentofiori.controller.Worklist" 
+    height="100%">
+	<smartFilterBar:SmartFilterBar 
+            id="smartFilterBar" 
+            entitySet="Products" 
+            persistencyKey="SmartFilter_Explored" 
+            showFilterConfiguration="true">
+			<smartFilterBar:controlConfiguration>
 
-    <semantic:SemanticPage
-        id="page"
-        headerPinnable="false"
-        toggleHeaderOnTitleClick="false">
+                <smartFilterBar:ControlConfiguration
+                    label="Identificador"
+                    key="ID" visibleInAdvancedArea="true"
+					preventInitialDataFetchInValueHelpDialog="false">
+                </smartFilterBar:ControlConfiguration>
 
-        <semantic:titleHeading>
-            <Title
-                text="{i18n>worklistTitle}"
-                level="H2"/>
-        </semantic:titleHeading>
+                <smartFilterBar:ControlConfiguration
+                   label="Nome"
+                   key="Name" visibleInAdvancedArea="true"
+                   preventInitialDataFetchInValueHelpDialog="false">
+                </smartFilterBar:ControlConfiguration>
 
-        <semantic:content>
-            <Table
-                id="table"
-                width="auto"
-                items="{
-                    path: '/Products',
-                    sorter: {
-                        path: 'ID',
-                        descending: false
-                    }
-                }"
-                noDataText="{worklistView>/tableNoDataText}"
-                busyIndicatorDelay="{worklistView>/tableBusyDelay}"
-                growing="true"
-                growingScrollToLoad="true"
-                updateFinished=".onUpdateFinished">
+                <smartFilterBar:ControlConfiguration
+                    label="Descrição"
+                    key="Description" visibleInAdvancedArea="true"
+                    preventInitialDataFetchInValueHelpDialog="false">
+                </smartFilterBar:ControlConfiguration>
 
-                <headerToolbar>
-                    <OverflowToolbar>
-                        <Title
-                            id="tableHeader"
-                            text="{worklistView>/worklistTableTitle}"
-                            level="H3"/>
-                        <ToolbarSpacer />
-                        <SearchField
-                            id="searchField"
-                            tooltip="{i18n>worklistSearchTooltip}"
-                            search=".onSearch">
-                            <layoutData>
-                                <OverflowToolbarLayoutData
-                                    maxWidth="200px"
-                                    priority="NeverOverflow"/>
-                            </layoutData>
-                        </SearchField>
-                    </OverflowToolbar>
-                </headerToolbar>
+                <smartFilterBar:ControlConfiguration
+                    label="Data de entrega"
+                    key="ReleaseDate" visibleInAdvancedArea="true"
+                    preventInitialDataFetchInValueHelpDialog="false">
+                </smartFilterBar:ControlConfiguration>
+                
+                <smartFilterBar:ControlConfiguration
+                    label="Data de descontinuação"
+                    key="DiscontinuedDate" visibleInAdvancedArea="true"
+                    preventInitialDataFetchInValueHelpDialog="false">
+                </smartFilterBar:ControlConfiguration>
 
-                <columns>
-                    <Column id="nameColumn">
-                        <Text text="{i18n>tableNameColumnTitle}" id="nameColumnTitle"/>
-                    </Column>
-                    <Column id="unitNumberColumn" hAlign="End">
-                        <Text text="{i18n>tableUnitNumberColumnTitle}" id="unitNumberColumnTitle"/>
-                    </Column>
-                </columns>
+                <smartFilterBar:ControlConfiguration
+                    label="Avaliação"
+                    key="Rating" visibleInAdvancedArea="true"
+                    preventInitialDataFetchInValueHelpDialog="false">
+                </smartFilterBar:ControlConfiguration>
 
-                <items>
-                    <ColumnListItem
-                        type="Navigation"
-                        press=".onPress">
-                        <cells>
-                            <ObjectIdentifier
-                                title="{ID}"/>
-                            <ObjectNumber
-                                number="{
-                                    path: 'Price',
-                                    formatter: '.formatter.numberUnit'
-                                }"
-                                unit="{ID}" />
-                        </cells>
-                    </ColumnListItem>
-                </items>
-            </Table>
-        </semantic:content>
+                <smartFilterBar:ControlConfiguration
+                    label="Preço"
+                    key="Price" visibleInAdvancedArea="true"
+                    preventInitialDataFetchInValueHelpDialog="false">
+                </smartFilterBar:ControlConfiguration>
 
-        <semantic:sendEmailAction>
-            <semantic:SendEmailAction id="shareEmail" press=".onShareEmailPress"/>
-        </semantic:sendEmailAction>
-
-    </semantic:SemanticPage>
-
+            </smartFilterBar:controlConfiguration>
+	</smartFilterBar:SmartFilterBar>
+	<smartTable:SmartTable entitySet="Products" 
+            initiallyVisibleFields="ID,Name,Description,ReleaseDate,DiscontinuedDate,Rating,Price" 
+            smartFilterId="smartFilterBar" 
+            enableExport="true" 
+            beforeExport="onBeforeExport" 
+            useVariantManagement="false" 
+            useTablePersonalisation="true" 
+            header="Materiais" showRowCount="true" 
+            persistencyKey="SmartTableAnalytical_Explored" 
+            enableAutoBinding="true" class="sapUiResponsiveContentPadding" 
+            enableAutoColumnWidth="true">
+		<table:Table id="innerTable" visibleRowCount="18" selectionMode="None"  >
+			<table:columns>
+				<table:Column width="10rem" hAlign="Center">
+					<table:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey" : "ID","leadingProperty": "ID", "columnIndex":"0"}'/>
+					</table:customData>
+					<Label text="Id" />
+					<table:template>
+						<Text wrapping="false" text="{ID}" />
+					</table:template>
+				</table:Column>
+			</table:columns>
+			<table:columns>
+				<table:Column width="15rem" hAlign="Center">
+					<table:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey" : "Name", "leadingProperty": "Name", "columnIndex":"1"}' />
+					</table:customData>
+					<Label text="Nome" />
+					<table:template>
+						<Text wrapping="false" text="{Name}" />
+					</table:template>
+				</table:Column>
+			</table:columns>
+			<table:columns>
+				<table:Column width="15rem" hAlign="Center">
+					<table:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey" : "Description", "leadingProperty": "Description", "columnIndex":"2"}' />
+					</table:customData>
+					<Label text="Descrição" />
+					<table:template>
+						<Text wrapping="false" text="{Description}" />
+					</table:template>
+				</table:Column>
+			</table:columns>
+			<table:columns>
+				<table:Column width="15rem" hAlign="Center">
+					<table:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey" : "ReleaseDate", "leadingProperty": "ReleaseDate", "columnIndex":"3"}' />
+					</table:customData>
+					<Label text="Data de entrega" />
+					<table:template>
+						<Text wrapping="false" text="{path: 'ReleaseDate',formatter: '.formatter.dateFormatter'}" />
+					</table:template>
+				</table:Column>
+			</table:columns>
+			<table:columns>
+				<table:Column width="15rem" hAlign="Center">
+					<table:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey" : "DiscontinuedDate", "leadingProperty": "DiscontinuedDate", "columnIndex":"4"}' />
+					</table:customData>
+					<Label text="Data de descontinuação" />
+					<table:template>
+						<Text wrapping="false" text="{path: 'DiscontinuedDate',formatter: '.formatter.dateFormatter'}" />
+					</table:template>
+				</table:Column>
+			</table:columns>
+			<table:columns>
+				<table:Column width="15rem" hAlign="Center">
+					<table:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey" : "Rating", "leadingProperty": "Rating", "columnIndex":"5"}' />
+					</table:customData>
+					<Label text="Avaliação" />
+					<table:template>
+                        <RatingIndicator id="RI_default" maxValue="5" class="sapUiSmallMarginBottom" value="{Rating}" tooltip="Rating Tooltip" editable="false" />
+					</table:template>
+				</table:Column>
+			</table:columns>
+            <table:columns>
+				<table:Column width="15rem" hAlign="Center">
+					<table:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey" : "Price", "leadingProperty": "Price", "columnIndex":"6"}' />
+					</table:customData>
+					<Label text="Preço" />
+					<table:template>
+						<Text wrapping="false" text="{path: 'Price',formatter: '.formatter.weightLiveChange'}" />
+					</table:template>
+				</table:Column>
+			</table:columns>
+			<table:columns>
+				<table:Column width="15rem" hAlign="Center">
+					<table:template>
+						<Button icon="sap-icon://information" press=".onClick"/>
+					</table:template>
+				</table:Column>
+			</table:columns>
+		</table:Table>
+	</smartTable:SmartTable>
 </mvc:View>

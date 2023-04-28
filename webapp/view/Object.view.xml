@@ -1,35 +1,109 @@
 <mvc:View
     controllerName="treinamentofiori.controller.Object"
-    xmlns="sap.m"
+    xmlns="sap.uxap"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns:semantic="sap.f.semantic">
+	xmlns:m="sap.m">
+    <ObjectPageLayout>
+        <headerTitle>
+            <ObjectPageHeader objectTitle="Material: {Model>/ID}" >
+            </ObjectPageHeader>
+        </headerTitle>
 
-    <semantic:SemanticPage
-        id="page"
-        headerPinnable="false"
-        toggleHeaderOnTitleClick="false"
-        busy="{objectView>/busy}"
-        busyIndicatorDelay="{objectView>/delay}">
+        <headerContent>
+            <m:ObjectAttribute text="Relatório completo gerado para o material {Model>/ID}."/>
+        </headerContent>
 
-        <semantic:titleHeading>
-            <Title
-                text="{ID}"
-                level="H2"/>
-        </semantic:titleHeading>
-
-        <semantic:headerContent>
-            <ObjectNumber
-                number="{
-                    path: 'Price',
-                    formatter: '.formatter.numberUnit'
-                }"
-                unit="{ID}" />
-        </semantic:headerContent>
-
-        <semantic:sendEmailAction>
-            <semantic:SendEmailAction id="shareEmail" press=".onShareEmailPress"/>
-        </semantic:sendEmailAction>
-
-    </semantic:SemanticPage>
-
+        <sections>
+            <ObjectPageSection titleUppercase="false" title="Detalhes do Material" >
+                <subSections>
+                    <ObjectPageSubSection title="Nome e Descrição" titleUppercase="false">
+                        <blocks>
+                            <m:HBox justifyContent="SpaceAround" class="sapUiSmallMargin" alignContent="SpaceBetween" alignItems="Inherit">
+                                <m:VBox>
+                                    <m:Label text="Nome"/>
+                                    <m:Text text="{Model>/Name}" wrapping="false"/>
+                                </m:VBox>
+                                <m:VBox>
+                                    <m:Label text="Descrição"/>
+                                    <m:Text text="{Model>/Description}" wrapping="false" />
+                                </m:VBox>
+                            </m:HBox>
+                        </blocks>
+                    </ObjectPageSubSection>
+                    <ObjectPageSubSection title="Datas do Material" titleUppercase="false">
+                        <blocks>
+                            <m:VBox justifyContent="SpaceAround">
+                                <m:HBox justifyContent="SpaceAround">
+                                    <m:Label text="Data de entrega"/>
+                                    <m:Text wrapping="false" text="{path: 'Model>/ReleaseDate',formatter: '.formatter.dateFormatter'}" />
+                                </m:HBox>
+                                <m:HBox justifyContent="SpaceAround">
+                                    <m:Label text="Data de Descontinuação"/>
+                                    <m:Text wrapping="false" text="{path: 'Model>/DiscontinuedDate',formatter: '.formatter.dateFormatter'}" />
+                                </m:HBox>
+                            </m:VBox>
+                        </blocks>
+                    </ObjectPageSubSection>
+                    <ObjectPageSubSection title="Avaliação e Preço" titleUppercase="false">
+                        <blocks>
+                            <m:VBox justifyContent="SpaceAround">
+                                <m:HBox justifyContent="SpaceBetween">
+                                    <m:Label text="Preço"/>
+                                    <m:Text text="{Model>/Price}" wrapping="false"/>
+                                </m:HBox>
+                                <m:HBox justifyContent="SpaceBetween">
+                                    <m:Label text="Avaliação"/>
+                                    <m:RatingIndicator id="RI_default" maxValue="5" class="sapUiSmallMarginBottom" value="{Model>/Rating}" tooltip="Rating Tooltip" editable="false" />
+                                </m:HBox>
+                            </m:VBox>
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+            <ObjectPageSection titleUppercase="false" title="Dados de Remessa" >
+                <subSections>
+                    <ObjectPageSubSection titleUppercase="false" title="Categoria">
+                        <blocks>
+                            <m:VBox>
+                                <m:Label text="Nome da Categoria"/>
+                                <m:Text text="{Model>/CategoryName}" wrapping="false"/>
+                                <m:Label text="Descrição"/>
+                                <m:Text text="Categoria para {Model>/CategoryName}" wrapping="false" />
+                            </m:VBox>
+                        </blocks>
+                    </ObjectPageSubSection>
+                    <ObjectPageSubSection titleUppercase="false" title="Fornecedor">
+                        <blocks>
+                            <m:HBox alignContent="SpaceBetween" alignItems="Inherit" justifyContent="SpaceBetween" class="sapUiSmallPadding">
+                                <m:VBox >
+                                    <m:Label text="Nome do Fornecedor"/>
+                                    <m:Text text="{Model>/SupplierName}" wrapping="false"/>
+                                </m:VBox>
+                                <m:VBox >
+                                    <m:Label text="Endereço"/>
+                                    <m:Text text="{Model>/Street}" wrapping="false" />
+                                </m:VBox>
+                                <m:VBox >
+                                    <m:Label text="Cidade"/>
+                                    <m:Text text="{Model>/City}" wrapping="false" />
+                                </m:VBox>
+                                <m:VBox >
+                                    <m:Label text="Código Postal"/>
+                                    <m:Text text="{Model>/ZipCode}" wrapping="false" />
+                                </m:VBox>
+                                <m:VBox >
+                                    <m:Label text="Estado"/>
+                                    <m:Text text="{Model>/State}" wrapping="false" />
+                                </m:VBox>
+                                <m:VBox >
+                                    <m:Label text="País"/>
+                                    <m:Text text="{Model>/Country}" wrapping="false" />
+                                </m:VBox>
+                            </m:HBox>
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+        </sections>
+    </ObjectPageLayout>
 </mvc:View>

@@ -26,6 +26,8 @@ sap.ui.define([
                     busy : true,
                     delay : 0
                 });
+
+            this.getView().setModel(new JSONModel({}), "Model");
             this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
             this.setModel(oViewModel, "objectView");
         },
@@ -62,6 +64,28 @@ sap.ui.define([
          */
         _onObjectMatched : function (oEvent) {
             var sObjectId =  oEvent.getParameter("arguments").objectId;
+            this.getModel().setUseBatch(false)
+            var oModel = this.getView().getModel("Model");
+            this.getModel().read(`/Products${sObjectId}`, {
+                urlParameters: {
+                    "$expand": "Category,Supplier"
+                },
+                success: function (oData) {
+                    debugger
+                    oModel.setData(oData)
+                    oModel.setProperty("/CategoryName", oData.Category.Name)
+                    oModel.setProperty("/SupplierName", oData.Supplier.Name)
+                    oModel.setProperty("/Street", oData.Supplier.Address.Street)
+                    oModel.setProperty("/City", oData.Supplier.Address.City)
+                    oModel.setProperty("/ZipCode", oData.Supplier.Address.ZipCode)
+                    oModel.setProperty("/State", oData.Supplier.Address.State)
+                    oModel.setProperty("/Country", oData.Supplier.Address.Country)
+                },
+                error: err => {
+                    debugger;
+                }
+            });
+
             this._bindView("/Products" + sObjectId);
         },
 
