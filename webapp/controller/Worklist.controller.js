@@ -26,6 +26,8 @@ sap.ui.define([
             // keeps the search state
             this._aTableSearchState = [];
 
+            this.getView().setModel(new JSONModel({}), "reportModel")
+
             // Model used to manipulate control states
             oViewModel = new JSONModel({
                 worklistTableTitle: this.getResourceBundle().getText("worklistTableTitle"),
@@ -93,7 +95,7 @@ sap.ui.define([
                 actions: ["Simples", "Completo", "Cancelar"],
                 onClose: oAction => {
                     if(oAction === "Simples"){
-                        
+                        this.reportSimples(sEventAux);
                     }else if(oAction === "Completo"){
                         this.getRouter().navTo("object", {
                             objectId: sEventAux
@@ -101,6 +103,39 @@ sap.ui.define([
                     }
                 }
             })
+        },
+
+        reportSimples: function (sId) {
+
+            this._oValueHelpDialog = sap.ui.xmlfragment(this.getView().getId(), "treinamentofiori.fragment.relatorioSimples", this);
+            this.getView().addDependent(this._oValueHelpDialog);
+            var that = this;
+            this._oValueHelpDialog.setEscapeHandler(function () {
+                that._oValueHelpDialog.close();
+                that._oValueHelpDialog.destroy();
+                that._oValueHelpDialog = null;
+            });
+            this.setValueModel(sId);
+            this._oValueHelpDialog.open();
+        },
+
+        closeDialog: function () {
+            this._oValueHelpDialog.close();
+            this._oValueHelpDialog.destroy();
+            this._oValueHelpDialog = null;
+        },
+        
+        setValueModel: function(sId){
+            var oModel = this.getView().getModel("reportModel")
+            
+            this.getModel().read(`/Products${sId}`,{
+                success: oData => {
+                    oModel.setData(oData);
+                },
+                error: err => {
+
+                }
+            });
         },
 
         onSearch: function (oEvent) {

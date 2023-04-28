@@ -1,0 +1,19 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" >
+    <Dialog contentHeight="500px" contentWidth="1100px" horizontalScrolling="true" showHeader="true" state="None" stretch="false" title="Ativo Fixo" type="Standard" verticalScrolling="true">
+        <content>
+           <VBox justifyContent="Center" >
+            <HBox justifyContent="SpaceAround">
+                <Label text="Aqui" />
+                <Input />
+            </HBox>
+           </VBox>
+        </content>
+        <beginButton/>
+        <buttons>
+            <Button text="Cancelar" type="Ghost" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press=".closeDialog"/>
+        </buttons>
+        <customHeader/>
+        <endButton/>
+        <subHeader/>
+    </Dialog>
+</core:FragmentDefinition>
